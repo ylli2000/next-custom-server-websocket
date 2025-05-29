@@ -50,14 +50,6 @@ class SocketService {
         }
       })
 
-      this.socket.io.on('upgrade', () => {
-        console.log('🔄 SocketService: Transport upgraded to:', this.socket?.io.engine.transport.name)
-      })
-
-      this.socket.io.engine.on('upgradeError', (error) => {
-        console.error('❌ SocketService: Transport upgrade error:', error)
-      })
-
       this.socket.on('connect_error', (error) => {
         console.error('❌ SocketService: Connection error:', error)
         console.error('   - Error message:', error.message)
