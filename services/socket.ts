@@ -18,7 +18,9 @@ class SocketService {
     console.log('🔄 SocketService: Attempting to connect...')
     
     if (!this.socket) {
-      const serverUrl = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000'
+      const serverUrl = process.env.NODE_ENV === 'production' 
+        ? window.location.origin 
+        : 'http://localhost:3000'
       console.log(`🔄 SocketService: Connecting to ${serverUrl}`)
       
       this.socket = io(serverUrl, {
@@ -26,7 +28,8 @@ class SocketService {
         timeout: 20000,
         forceNew: true,
         upgrade: true,
-        rememberUpgrade: true
+        rememberUpgrade: true,
+        withCredentials: true
       })
 
       this.socket.on('connect', () => {

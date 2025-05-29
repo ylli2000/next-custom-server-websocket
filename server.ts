@@ -7,7 +7,8 @@ import { extractUrls, fetchMultipleLinkPreviews } from './lib/linkPreview.js'
 
 const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
+const hostname = process.env.HOSTNAME || '0.0.0.0'
+const app = next({ dev, hostname, port })
 const handle = app.getRequestHandler()
 
 type User = {
@@ -73,8 +74,9 @@ app.prepare().then(() => {
 
   const io = new SocketIOServer(server, {
     cors: {
-      origin: "*",
-      methods: ["GET", "POST"]
+      origin: dev ? "*" : ["https://*.railway.app", "https://*.up.railway.app"],
+      methods: ["GET", "POST"],
+      credentials: true
     },
     transports: ['websocket', 'polling'],
     allowEIO3: true,

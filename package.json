@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "tsx server.ts",
     "build": "next build",
-    "start": "NODE_ENV=production tsx server.ts",
-    "lint": "next lint"
+    "start": "tsx server.ts",
+    "lint": "next lint",
+    "railway:start": "tsx server.ts"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
