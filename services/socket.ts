@@ -50,12 +50,6 @@ class SocketService {
         }
       })
 
-      this.socket.on('connect_error', (error) => {
-        console.error('❌ SocketService: Connection error:', error)
-        console.error('   - Error message:', error.message)
-        console.error('   - Error stack:', error.stack)
-      })
-
       this.socket.on('error', (error) => {
         console.error('❌ SocketService: Socket error:', error)
       })
