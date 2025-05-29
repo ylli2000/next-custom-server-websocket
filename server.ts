@@ -5,7 +5,7 @@ import { parse } from 'url'
 import { v4 as uuidv4 } from 'uuid'
 import { extractUrls, fetchMultipleLinkPreviews } from './lib/linkPreview.js'
 
-const port = parseInt(process.env.PORT || '3000', 10)
+const port = parseInt(process.env.PORT || '8080', 10)
 const dev = process.env.NODE_ENV !== 'production'
 const hostname = '0.0.0.0'
 const app = next({ dev })
