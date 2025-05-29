@@ -521,9 +521,9 @@ app.prepare().then(() => {
     })
   })
 
-  server.listen(port, () => {
+  server.listen(port, hostname, () => {
     console.log(
-      `> Server listening at http://localhost:${port} as ${
+      `> Server listening at http://${hostname}:${port} as ${
         dev ? 'development' : process.env.NODE_ENV
       }`
     )
