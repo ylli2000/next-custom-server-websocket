@@ -7,7 +7,8 @@ import { extractUrls, fetchMultipleLinkPreviews } from './lib/linkPreview.js'
 
 const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
-const hostname = process.env.HOSTNAME || '0.0.0.0'
+// 强制使用 0.0.0.0，忽略 Render 设置的 HOSTNAME
+const hostname = '0.0.0.0'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
@@ -68,6 +69,13 @@ let stickyMessage: Message | null = null
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
+    // 添加健康检查路由
+    if (req.url === '/health' || req.url === '/healthz') {
+      res.writeHead(200, { 'Content-Type': 'text/plain' })
+      res.end('OK')
+      return
+    }
+    
     const parsedUrl = parse(req.url!, true)
     handle(req, res, parsedUrl)
   })
@@ -541,5 +549,21 @@ app.prepare().then(() => {
         dev ? 'development' : process.env.NODE_ENV
       }`
     )
+    console.log(`> Actual hostname: ${hostname}`)
+    console.log(`> Port: ${port}`)
+    console.log(`> NODE_ENV: ${process.env.NODE_ENV}`)
+    console.log(`> Public URL should be: ${process.env.RENDER_EXTERNAL_URL || 'Not set'}`)
   })
+
+  // 添加错误处理
+  server.on('error', (error: NodeJS.ErrnoException) => {
+    console.error('❌ Server error:', error)
+    if (error.code === 'EADDRINUSE') {
+      console.error(`Port ${port} is already in use`)
+    }
+    process.exit(1)
+  })
+}).catch((error) => {
+  console.error('❌ Failed to prepare Next.js app:', error)
+  process.exit(1)
 }) 
