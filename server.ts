@@ -7,7 +7,7 @@ import { extractUrls, fetchMultipleLinkPreviews } from './lib/linkPreview.js'
 
 const port = parseInt(process.env.PORT || '3000', 10)
 const dev = process.env.NODE_ENV !== 'production'
-const hostname = '0.0.0.0'
+const hostname = process.env.HOSTNAME || '0.0.0.0'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
@@ -74,7 +74,21 @@ app.prepare().then(() => {
 
   const io = new SocketIOServer(server, {
     cors: {
-      origin: dev ? "*" : ["https://*.railway.app", "https://*.up.railway.app"],
+      origin: dev 
+        ? "*" 
+        : [
+            // Railway
+            "https://*.railway.app",
+            "https://*.up.railway.app",
+            // Render
+            "https://*.onrender.com",
+            // Fly.io
+            "https://*.fly.dev",
+            // Heroku
+            "https://*.herokuapp.com",
+            // 允许自定义域名（如果有）
+            process.env.CUSTOM_DOMAIN || "",
+          ].filter(Boolean),
       methods: ["GET", "POST"],
       credentials: true
     },

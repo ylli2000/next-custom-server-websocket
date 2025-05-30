@@ -717,6 +717,17 @@ File → ArrayBuffer → Buffer → ArrayBuffer → Blob URL → 图片显示
 - 机器人头像: Zikri Kader
 - 人像头像: Pablo Stanley (avataaars)
 
+## 部署
+
+本项目使用 Next.js Custom Server + Socket.IO，**不能部署到 Vercel**。
+
+请查看 [DEPLOYMENT.md](./DEPLOYMENT.md) 获取详细的部署指南，包括：
+
+- 🚀 推荐的部署平台（Render, Fly.io, Railway, Heroku）
+- 📝 详细的部署步骤
+- 🔧 故障排查指南
+- 🌟 生产环境优化建议
+
 ## License
 
 MIT 
